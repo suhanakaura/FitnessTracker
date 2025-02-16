@@ -4,33 +4,31 @@ import { Trophy } from "lucide-react";
 // Sample leaderboard data
 const leaderboardData = [
   { name: "Alice Johnson", score: 1200 },
-  { name: "Alice Johnson", score: 1200 },
-  { name: "Bob Smith", score: 1100 },
   { name: "Bob Smith", score: 1100 },
   { name: "Charlie Davis", score: 1000 },
-  { name: "Charlie Davis", score: 1000 },
-  { name: "David Brown", score: 950 },
   { name: "David Brown", score: 950 },
   { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
-  { name: "Eva Green", score: 900 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  { name: "John Doe", score: 850 },
+  // Add more players if needed
 ];
 
-const Leaderboard = () => {
+export default function Leaderboard(){
   return (
-    // Full screen white background
-    <div className="fixed min-h-screen bg-gray-100 flex justify-start items-center px-4">
-      <div className="fixed left-5 top-1/2 transform -translate-y-1/2 w-[450px] h-[100vh] p-6 bg-gradient-to-tl from-gray-800 to-black text-white shadow-2xl rounded-lg border border-gray-800">
+    // Full screen centered container without background color
+    <div className="fixed h-[100vh] w-[100vw] bg-violet-200 flex justify-center items-center">
+      <div className="w-[90vw] mt-8 mb-8 max-w-4xl p-6 bg-violet-900 text-white rounded-lg border border-gray-800">
         <h2 className="text-4xl font-extrabold text-white mb-6 text-left tracking-wide">
           🏆 Leaderboard
         </h2>
@@ -38,7 +36,7 @@ const Leaderboard = () => {
         {/* Table displaying leaderboard data */}
         <div className="overflow-y-auto max-h-[400px] no-scrollbar">
           <table className="min-w-full table-auto text-white">
-            <thead className="bg-gradient-to-r from-indigo-600 to-indigo-800 text-lg font-semibold text-white rounded-t-lg">
+            <thead className="bg-violet-500 text-lg font-semibold text-white rounded-t-lg">
               <tr>
                 <th className="px-6 py-4 text-left">Rank</th>
                 <th className="px-6 py-4 text-left">Player</th>
@@ -49,9 +47,9 @@ const Leaderboard = () => {
               {leaderboardData.map((player, index) => (
                 <tr
                   key={index}
-                  className={`transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gradient-to-r hover:from-indigo-100 hover:via-indigo-200 hover:to-indigo-300 ${
+                  className={`transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gray-600 ${
                     index < 3
-                      ? "bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-black"
+                      ? "bg-gray-900"
                       : "bg-gray-800"
                   }`}
                 >
@@ -72,5 +70,3 @@ const Leaderboard = () => {
     </div>
   );
 };
-
-export default Leaderboard;
