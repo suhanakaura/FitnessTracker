@@ -4,15 +4,41 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Login() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("User:", {
-      username,
-      email,
+    
+    // Check if the inputs are filled
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:4000/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Allows cookies to be sent with the request
+        body: JSON.stringify({ email, password }), // Send login data
       });
-    navigate('/'); 
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // On successful login, save user data to localStorage or cookies if required
+        alert("Login successful!");
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate("/"); // Redirect to the homepage or dashboard
+      } else {
+        alert(data.message); // Show error message from server
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -41,8 +67,6 @@ export default function Login() {
           className="mt-2 w-full p-3 rounded-md bg-violet-100 text-gray-900 placeholder-gray-400  focus:outline-none"
           required
         />
-      
-     
 
         <button
           type="submit"
@@ -53,12 +77,11 @@ export default function Login() {
       </form>
 
       <p className="text-sm text-gray-400 mt-4">
-        Don't have a account?{" "}
-        <Link to ="/signup"><span
-            className="text-violet-400 cursor-pointer hover:underline"
-        >
-          SignUp here !
-        </span>
+        Don't have an account?{" "}
+        <Link to="/signup">
+          <span className="text-violet-400 cursor-pointer hover:underline">
+            SignUp here !
+          </span>
         </Link>
       </p>
     </div>

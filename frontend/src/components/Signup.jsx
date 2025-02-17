@@ -11,18 +11,49 @@ export default function Signup() {
   const [profile, setProfile] = useState("");
     const navigate = useNavigate();
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    console.log("User:", {
-      username,
-      email,
-      password,
-      number,
-      passwordConfirm,
-      gender,
-    });
-    navigate('/'); // Redirect to Landing
-  };
+    const handleSignup = async (e) => {
+      e.preventDefault();
+    
+      if (password !== passwordConfirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+    
+      const userData = {
+        name: username,
+        email,
+        phoneNumber: number,
+        password,
+        confirmedPassword: passwordConfirm,
+        gender,
+      };
+    
+      try {
+        const response = await fetch("http://localhost:4000/api/v1/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+          credentials: "include", // For cookies
+        });
+    
+        const data = await response.json();
+    
+        if (!response.ok) {
+          throw new Error(data.message || "Signup failed");
+        }
+    
+        // Save user to localStorage
+        localStorage.setItem("user", JSON.stringify(data));
+    
+        // Redirect to homepage or dashboard
+        navigate("/");
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+    
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-violet-200 text-violet-950 p-4">
@@ -68,10 +99,10 @@ export default function Signup() {
           required
         />
         <input
-          type="passwordConfirm"
+          type="password"
           placeholder="Confirmed Password"
           value={passwordConfirm}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setPasswordConfirm(e.target.value)}
           className="w-full p-3 rounded-md bg-violet-100 text-gray-900 placeholder-gray-400  focus:outline-none"
           required
         />
@@ -88,7 +119,7 @@ export default function Signup() {
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
-
+{/* 
         <label className="w-full p-3 rounded-md bg-violet-100 text-gray-400 placeholder-gray-400 focus:outline-none cursor-pointer flex items-center justify-center">
           {profile ? profile.name : "Upload Your Profile Picture"}
           <input
@@ -97,7 +128,7 @@ export default function Signup() {
             onChange={(e) => setProfile(e.target.files[0])}
             className="hidden"
           />
-        </label>
+        </label> */}
 
         <button
           type="submit"

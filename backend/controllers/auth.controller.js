@@ -42,8 +42,6 @@ export const signup = async (req, res) => {
     if (existingUser) {
       return res.status(401).send({ message: "User Already Exists" });
     }
-    const boypic = `https://avatar.iran.liara.run/public/boy?username=${name}`;
-    const girlpic = `https://avatar.iran.liara.run/public/girl?username=${name}`;
     const passwordHash = await bcrypt.hash(password, 10);
 
     let newuser;
@@ -55,7 +53,6 @@ export const signup = async (req, res) => {
     phoneNumber,
     password: passwordHash,
     gender,
-    profilepic: gender == "Male" ? boypic : girlpic,
     }).save();
     
 
@@ -66,7 +63,6 @@ export const signup = async (req, res) => {
       email: newuser.email,
       phoneNumber: newuser.phoneNumber,
       gender: newuser.gender,
-      profilepic: newuser.profilepic,
     });
   } catch (err) {
     res
@@ -77,33 +73,30 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password} = req.body;
-    let user = await User.findOne({ email });;
+    const { email, password } = req.body;
+
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).send({ message: "Invalid email or password" });
     }
-    const isvalidPassword = await bcrypt.compare(
-      password,
-      user ? user.password : " "
-    );
-    if (!isvalidPassword) {
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
       return res.status(400).send({ message: "Invalid email or password" });
     }
-    generatejwt(user._id,res);
+
+    generatejwt(user._id, res); // Set JWT cookie
+
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       gender: user.gender,
-      profilepic: user.profilepic,
     });
   } catch (err) {
-    res
-      .status(500)
-      .send({ message: "internal server error", error: err.message });
+    res.status(500).send({ message: "Internal server error", error: err.message });
   }
 };
-
 export const logout = async (req, res) => {
 //   verifyRoute
   try {
@@ -117,4 +110,3 @@ export const logout = async (req, res) => {
       .send({ message: "Error:Interval Server Error", error: err.message });
   }
 };
-
