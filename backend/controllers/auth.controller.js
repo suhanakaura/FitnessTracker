@@ -85,7 +85,7 @@ export const login = async (req, res) => {
       return res.status(400).send({ message: "Invalid email or password" });
     }
 
-    generatejwt(user._id, res); // Set JWT cookie
+    generatejwt(user._id, res); 
 
     res.status(200).json({
       _id: user._id,

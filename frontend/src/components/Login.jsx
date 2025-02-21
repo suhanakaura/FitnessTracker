@@ -21,8 +21,8 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Allows cookies to be sent with the request
-        body: JSON.stringify({ email, password }), // Send login data
+        credentials: "include", 
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();

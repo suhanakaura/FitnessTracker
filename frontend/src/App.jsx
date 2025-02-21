@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Thankyou from "./components/Thankyou";
 import Feedback from "./components/Feedback";
 import Landing from "./pages/Landing";
+import Home from "./pages/Home";
 
 function App() {
   const isAuthenticated = localStorage.getItem("user") !== null;
@@ -15,13 +16,13 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Landing />}></Route>
-        <Route path="/signup" element={<SignupPage />}></Route>
+        <Route path="/" element={<Home />}></Route>
+        {/* <Route path="/signup" element={<SignupPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/Leaderboard" element={<Leaderboard />}></Route>
         <Route path="/profile" element={<Profile/>}></Route>
         <Route path="/thankyou" element={<Thankyou />}></Route>
-        <Route path="/feedback" element={<Feedback/>}></Route>
+        <Route path="/feedback" element={<Feedback/>}></Route> */}
       </Routes>
     </>
   );
